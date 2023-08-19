@@ -11,8 +11,8 @@ import com.ghouse.memoirist.entity.Profile;
 public interface ProfileMapper {
 
 ////	@Mapping(target = "userName", source = "profile.userName")
-	@Mapping(target = "email", source = "profile.email")
-	@BeanMapping(ignoreByDefault = true)
+//	@Mapping(target = "email", source = "profile.email")
+	@BeanMapping(ignoreByDefault = false)
 	ProfileRS toProfileRS(Profile profile);
 
 }

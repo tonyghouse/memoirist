@@ -17,7 +17,7 @@ public class ProfileRS {
 
 	private String firstName;
 
-	@JsonIgnore
+//	@JsonIgnore
 	private String lastName;
 
 	private String email;
