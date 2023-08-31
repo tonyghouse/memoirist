@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HealthCheckController {
 
-	@GetMapping("/")
+	@GetMapping(value="/", produces = "application/json")
 	public ResponseEntity<String> checkHome() {
 		return new ResponseEntity<>("Memoirist API Home: " + ZonedDateTime.now(), HttpStatus.OK);
 	}
 
-	@GetMapping("/health")
+	@GetMapping(value="/health", produces = "application/json")
 	public ResponseEntity<String> checkHealth() {
 		return new ResponseEntity<>("Memoirist API Healthy: " + ZonedDateTime.now(), HttpStatus.OK);
 	}
 
-	@GetMapping("/liveness")
+	@GetMapping(value="/liveness", produces = "application/json")
 	public ResponseEntity<String> checkLiveness() {
 		return new ResponseEntity<>("Memoirist API is Live: " + ZonedDateTime.now(), HttpStatus.OK);
 	}

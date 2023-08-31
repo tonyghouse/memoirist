@@ -18,16 +18,9 @@ import lombok.Setter;
 @Entity
 public class Profile {
 
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-    private String userName;
-
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private String phone;
+    private String userId;
+	
+	private String userName;
 
 }

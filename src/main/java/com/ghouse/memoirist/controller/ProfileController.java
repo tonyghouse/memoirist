@@ -25,19 +25,19 @@ public class ProfileController {
 	@Autowired
 	private ProfileService profileService;
 
-	@GetMapping("/profile/permissions/{userName}")
+	@GetMapping(value="/profile/permissions/{userName}" , produces = "application/json")
 	public ResponseEntity<List<String>> getProfilePermissions(@PathVariable String userName) {
 		List<String> permissions = profileService.getProfilePermissions(userName);
 		return new ResponseEntity<>(permissions, HttpStatus.OK);
 	}
 
-	@PostMapping("/profile/new")
+	@PostMapping(value="/profile/new", produces = "application/json")
 	public ResponseEntity<Profile> addProfile(@RequestBody Profile profile) {
 		Profile savedProfile = profileService.addProfile(profile);
 		return new ResponseEntity<>(savedProfile, HttpStatus.OK);
 	}
 
-	@GetMapping("/profile/{userName}")
+	@GetMapping(value="/profile/{userName}", produces = "application/json")
 	public ResponseEntity<ProfileRS> getProfile(@PathVariable String userName) {
 		ProfileRS profileRS = profileService.getProfile(userName);
 		log.info("profile: "+profileRS);
