@@ -38,15 +38,17 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public ContentDetails getContent(String sectionDate, String sectionId) {
 		Section section;
-		if (sectionId != null) {
+		if (sectionId != null && "null".equalsIgnoreCase(sectionId)) {
 			section = sectionRepo.getBySectionId(sectionId);
 		} else {
 			section = sectionRepo.getBySectionDate(GenericUtil.getLocalDate(sectionDate));
 		}
 
 		if (section == null) {
-			return new ContentDetails(sectionId, sectionDate, Collections.emptyList());
+			return new ContentDetails(sectionId, sectionDate, null, Collections.emptyList());
 		}
+
+		String sectionTitle = inferSectionTitle(section.getSectionName(), section.getSectionDate());
 
 		JsonNode contentsOrder = section.getContentsOrder();
 
@@ -64,7 +66,15 @@ public class ContentServiceImpl implements ContentService {
 			blocks.add(block);
 		}
 
-		return new ContentDetails(sectionId, sectionDate, blocks);
+		return new ContentDetails(sectionId, sectionDate, sectionTitle, blocks);
+	}
+
+	private String inferSectionTitle(String sectionName, LocalDate sectionDate) {
+		System.out.println("section date: "+sectionDate);
+		if (sectionDate != null) {
+			return GenericUtil.convertToTitle(sectionDate);
+		}
+		return sectionName;
 	}
 
 	@Override
@@ -77,10 +87,10 @@ public class ContentServiceImpl implements ContentService {
 		if (sectionId != null) {
 			section = sectionRepo.getById(sectionId);
 		} else {
-			section = getOrCreateSection(sectionDate,userId);
+			section = getOrCreateSection(sectionDate, userId);
 		}
 
-		if(section==null) {
+		if (section == null) {
 			return new GenericStatus("FAILURE");
 		}
 
@@ -107,13 +117,13 @@ public class ContentServiceImpl implements ContentService {
 		return new GenericStatus("SUCCESS");
 	}
 
-	private Section getOrCreateSection(String sectionDate,String userId) {
+	private Section getOrCreateSection(String sectionDate, String userId) {
 		LocalDate parsedSectionDate = GenericUtil.getLocalDate(sectionDate);
 		Section section = sectionRepo.getBySectionDate(parsedSectionDate);
-		if(section!=null) {
+		if (section != null) {
 			return section;
 		}
-		
+
 		Section newSection = new Section();
 		newSection.setUserId(userId);
 		newSection.setSectionDate(parsedSectionDate);

@@ -21,6 +21,9 @@ public class ContentDetails {
 	@JsonProperty("sectionDate")
 	private String sectionDate;
 	
+	@JsonProperty("sectionTitle")
+	private String sectionTitle;
+	
 	@JsonProperty("blocks")
 	private List<Block> blocks;
 

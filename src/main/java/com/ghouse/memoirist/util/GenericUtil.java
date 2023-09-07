@@ -45,5 +45,12 @@ public class GenericUtil {
 	public static String convertToTitle(LocalDate date, String format) {
 		return date.format(DateTimeFormatter.ofPattern(DD_MMM_YYYY));
 	}
+	
+	public static void wait(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException exp) {
+		}
+	}
 
 }

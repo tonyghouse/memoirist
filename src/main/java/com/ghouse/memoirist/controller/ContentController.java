@@ -15,6 +15,8 @@ import com.ghouse.memoirist.dto.ContentDetails;
 import com.ghouse.memoirist.dto.ContentRQ;
 import com.ghouse.memoirist.dto.GenericStatus;
 import com.ghouse.memoirist.service.ContentService;
+import com.ghouse.memoirist.util.GenericUtil;
+import com.ghouse.memoirist.util.GenericUtil;
 
 @RestController
 public class ContentController {
@@ -28,8 +30,10 @@ public class ContentController {
 	public ResponseEntity<ContentDetails> getContent(@RequestParam(required = false) String sectionDate,
 			                                         @RequestParam(required = false) String sectionId) {
 		log.info("getting content: " + sectionId +" sectionDate: "+sectionDate);
+//		GenericUtil.wait(5000);
 		ContentDetails content = contentService.getContent(sectionDate,sectionId);
 		return new ResponseEntity<>(content, HttpStatus.OK);
+		
 	}
  
 	@PostMapping(value = "/content", produces = "application/json")

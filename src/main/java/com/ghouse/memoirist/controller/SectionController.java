@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ghouse.memoirist.dto.SectionDetails;
 import com.ghouse.memoirist.dto.SectionRQ;
 import com.ghouse.memoirist.service.SectionService;
+import com.ghouse.memoirist.util.GenericUtil;
 
 @RestController
 public class SectionController {
@@ -28,6 +29,7 @@ public class SectionController {
 	@GetMapping(value = "/sections/top/{userId}", produces = "application/json")
 	public ResponseEntity<List<SectionDetails>> getTopSections(@PathVariable String userId) {
 		List<SectionDetails> sections = sectionService.getTopSections(userId);
+//		GenericUtil.wait(5000);
 		return new ResponseEntity<>(sections, HttpStatus.OK);
 	}
 

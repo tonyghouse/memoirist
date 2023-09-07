@@ -39,7 +39,7 @@ public class SectionServiceImpl implements SectionService {
 	public List<SectionDetails> getTopSections(String userId) {
 
 		// default total sections needed 12
-		int defaultNumbTopSections = 12;
+		int defaultNumbTopSections = 10;
 
 		Pageable pageable = PageRequest.of(0, 5, Sort.by("sectionName"));
 
@@ -59,7 +59,8 @@ public class SectionServiceImpl implements SectionService {
 		for (LocalDate date : sectionDates) {
 			Section section = datedSectionsMap.get(date);
 			String sectionId = section != null ? section.getSectionId() : null;
-			SectionDetails sectionDetails = new SectionDetails(sectionId, "DATE", GenericUtil.convertToString(date),
+			SectionDetails sectionDetails = new SectionDetails(sectionId, "DATE",
+					GenericUtil.convertToString(date),
 					GenericUtil.convertToTitle(date));
 			sectionDetailsList.add(sectionDetails);
 		}
