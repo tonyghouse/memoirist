@@ -56,6 +56,12 @@ public class SectionServiceImpl implements SectionService {
 		Map<LocalDate, Section> datedSectionsMap = datedSections.stream()
 				.collect(Collectors.toMap(Section::getSectionDate, Function.identity()));
 
+
+		for (Section section : namedSections) {
+			SectionDetails sectionDetails = sectionMapper.toSectionDetails(section);
+			sectionDetailsList.add(sectionDetails);
+		}
+
 		for (LocalDate date : sectionDates) {
 			Section section = datedSectionsMap.get(date);
 			String sectionId = section != null ? section.getSectionId() : null;
@@ -64,12 +70,6 @@ public class SectionServiceImpl implements SectionService {
 					GenericUtil.convertToTitle(date));
 			sectionDetailsList.add(sectionDetails);
 		}
-
-		for (Section section : namedSections) {
-			SectionDetails sectionDetails = sectionMapper.toSectionDetails(section);
-			sectionDetailsList.add(sectionDetails);
-		}
-
 		return sectionDetailsList;
 	}
 

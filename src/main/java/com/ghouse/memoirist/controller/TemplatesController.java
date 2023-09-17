@@ -23,7 +23,9 @@ public class TemplatesController {
 
 	@GetMapping(value = "/tempates/top/", produces = "application/json")
 	public ResponseEntity<List<TemplateDetails>> getTopTemplates() {
-		List<TemplateDetails> templates = templateService.getTopTemplates();
+		
+		List<TemplateDetails> templates =  List.of();
+		
 		return new ResponseEntity<>(templates, HttpStatus.OK);
 	}
 
