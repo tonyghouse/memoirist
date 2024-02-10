@@ -38,7 +38,7 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public ContentDetails getContent(String sectionDate, String sectionId) {
 		Section section;
-		if (sectionId != null && "null".equalsIgnoreCase(sectionId)) {
+		if (sectionId != null) {
 			section = sectionRepo.getBySectionId(sectionId);
 		} else {
 			section = sectionRepo.getBySectionDate(GenericUtil.getLocalDate(sectionDate));
@@ -52,9 +52,9 @@ public class ContentServiceImpl implements ContentService {
 
 		JsonNode contentsOrder = section.getContentsOrder();
 
+		List<Content> contents = contentRepo.getBySectionId(sectionId);
 		List<String> contentIds = convertToList(contentsOrder);
 
-		List<Content> contents = contentRepo.getByContentIdIn(contentIds);
 		Map<String, Content> contentsMap = contents.stream()
 				.collect(Collectors.toMap(Content::getContentId, Function.identity()));
 
@@ -85,11 +85,10 @@ public class ContentServiceImpl implements ContentService {
 		Section section;
 
 		if (sectionId != null) {
-			section = sectionRepo.getById(sectionId);
-		} else {
+			section = sectionRepo.getBySectionId(sectionId);
+		} else{
 			section = getOrCreateSection(sectionDate, userId);
 		}
-
 		if (section == null) {
 			return new GenericStatus("FAILURE");
 		}
@@ -105,11 +104,12 @@ public class ContentServiceImpl implements ContentService {
 			content.setContentType(block.getType());
 			content.setData(block.getData());
 			content.setSectionId(section.getSectionId());
-			contentsOrder.add(block.getId());
 			contents.add(content);
+			contentsOrder.add(block.getId());
 		}
 
 		JsonNode contentsOrderJson = convertToJsonNode(contentsOrder);
+		System.out.println("contentOrderJson: "+contentsOrderJson);
 		section.setContentsOrder(contentsOrderJson);
 		sectionRepo.save(section);
 		contentRepo.saveAll(contents);
@@ -119,14 +119,15 @@ public class ContentServiceImpl implements ContentService {
 
 	private Section getOrCreateSection(String sectionDate, String userId) {
 		LocalDate parsedSectionDate = GenericUtil.getLocalDate(sectionDate);
-		Section section = sectionRepo.getBySectionDate(parsedSectionDate);
-		if (section != null) {
-			return section;
+		List<Section> sections = sectionRepo.getBySectionDateAndUserId(parsedSectionDate,userId);
+		if (!sections.isEmpty()) {
+			return  sections.get(0);
 		}
 
 		Section newSection = new Section();
 		newSection.setUserId(userId);
 		newSection.setSectionDate(parsedSectionDate);
+		newSection.setSectionName("Day"+parsedSectionDate.toString());
 		newSection.setSectionNameType("DATE");
 		return sectionRepo.save(newSection);
 	}
@@ -145,8 +146,7 @@ public class ContentServiceImpl implements ContentService {
 	private JsonNode convertToJsonNode(List<String> list) {
 		try {
 			String jsonStr = objectMapper.writeValueAsString(list);
-			JsonNode jsonNode = objectMapper.readTree(jsonStr);
-			return jsonNode;
+            return objectMapper.readTree(jsonStr);
 
 		} catch (Exception e) {
 			return null;

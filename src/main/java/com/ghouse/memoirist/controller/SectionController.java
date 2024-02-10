@@ -29,7 +29,7 @@ public class SectionController {
 	@GetMapping(value = "/sections/top/{userId}", produces = "application/json")
 	public ResponseEntity<List<SectionDetails>> getTopSections(@PathVariable String userId) {
 		List<SectionDetails> sections = sectionService.getTopSections(userId);
-//		GenericUtil.wait(5000);
+
 		return new ResponseEntity<>(sections, HttpStatus.OK);
 	}
 

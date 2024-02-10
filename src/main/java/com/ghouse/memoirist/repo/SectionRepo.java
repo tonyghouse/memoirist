@@ -22,4 +22,6 @@ public interface SectionRepo extends JpaRepository<Section,String> {
 	Section getBySectionId(String sectionId);
 
 	List<Section> getBySectionDateIn(List<LocalDate> sectionDates);
+
+    List<Section> getBySectionDateAndUserId(LocalDate parsedSectionDate, String userId);
 }
