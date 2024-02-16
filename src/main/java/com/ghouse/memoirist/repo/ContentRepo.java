@@ -1,11 +1,10 @@
 package com.ghouse.memoirist.repo;
 
-import java.util.List;
-
+import com.ghouse.memoirist.entity.Content;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ghouse.memoirist.entity.Content;
+import java.util.List;
 
 @Repository
 public interface ContentRepo extends JpaRepository<Content,String> {

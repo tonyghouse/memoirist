@@ -1,12 +1,10 @@
 package com.ghouse.memoirist.util;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ghouse.memoirist.entity.Section;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class GenericUtil {
 
@@ -14,6 +12,7 @@ public class GenericUtil {
 
 	public static final String MM_DD_YYYY = "MM-dd-yyyy";
 	public static final String DD_MMM_YYYY = "dd MMM yyyy";
+	public static int TITLE_CHARACTER_LIMIT = 15;
 
 	public static LocalDate getLocalDate(String date) {
 		return getLocalDate(date, MM_DD_YYYY);

@@ -1,9 +1,9 @@
 package com.ghouse.memoirist.service;
 
-import java.util.List;
-
 import com.ghouse.memoirist.dto.SectionDetails;
 import com.ghouse.memoirist.dto.SectionRQ;
+
+import java.util.List;
 
 public interface SectionService {
 	
@@ -11,4 +11,5 @@ public interface SectionService {
 
 	public SectionDetails addSection(SectionRQ sectionRQ);
 
+    SectionDetails getSectionDetails(String sectionId, String sectionDate);
 }

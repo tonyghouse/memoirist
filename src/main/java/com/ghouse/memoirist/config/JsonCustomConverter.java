@@ -1,10 +1,10 @@
 package com.ghouse.memoirist.config;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 @Converter(autoApply = true)
 public class JsonCustomConverter implements AttributeConverter<JsonNode, String> {

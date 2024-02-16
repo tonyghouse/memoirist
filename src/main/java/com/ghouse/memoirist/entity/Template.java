@@ -1,23 +1,11 @@
 package com.ghouse.memoirist.entity;
 
-import java.time.LocalDate;
-
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ghouse.memoirist.config.JsonCustomConverter;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.persistence.*;
 
 @Data
 @Getter

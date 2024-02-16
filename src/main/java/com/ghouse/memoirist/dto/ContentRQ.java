@@ -1,11 +1,11 @@
 package com.ghouse.memoirist.dto;
 
-import java.util.Collections;
-import java.util.List;
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Collections;
+import java.util.List;
 
 @Data
 @Getter
@@ -16,6 +16,7 @@ public class ContentRQ {
 	private String userId;
 
 	private List<Block> blocks = Collections.emptyList();
+
 	private List<String> contentsOrder = Collections.emptyList();
 
 }

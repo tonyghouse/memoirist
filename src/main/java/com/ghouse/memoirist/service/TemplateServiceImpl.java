@@ -1,12 +1,11 @@
 package com.ghouse.memoirist.service;
 
-import java.util.List;
-
+import com.ghouse.memoirist.dto.TemplateDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ghouse.memoirist.dto.TemplateDetails;
+import java.util.List;
 
 @Service
 public class TemplateServiceImpl implements TemplateService {

@@ -1,11 +1,9 @@
 package com.ghouse.memoirist.mapper;
 
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-
 import com.ghouse.memoirist.dto.ProfileRS;
 import com.ghouse.memoirist.entity.Profile;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ProfileMapper {

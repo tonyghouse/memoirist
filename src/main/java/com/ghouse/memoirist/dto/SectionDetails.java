@@ -1,16 +1,13 @@
 package com.ghouse.memoirist.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class SectionDetails {
 	
 	@JsonProperty("sectionId")
@@ -24,5 +21,8 @@ public class SectionDetails {
 	
 	@JsonProperty("sectionTitle")
 	private String sectionTitle;
+
+	@JsonProperty("sectionTitleDesc")
+	private String sectionTitleDesc;
 
 }

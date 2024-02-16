@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MemoiristApiException {
+public class MemoiristApiException  {
     private String errorMessage;
     private String errorCode;
 }

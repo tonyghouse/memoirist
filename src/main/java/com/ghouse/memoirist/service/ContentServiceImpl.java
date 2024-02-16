@@ -1,16 +1,5 @@
 package com.ghouse.memoirist.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,9 +9,20 @@ import com.ghouse.memoirist.dto.ContentRQ;
 import com.ghouse.memoirist.dto.GenericStatus;
 import com.ghouse.memoirist.entity.Content;
 import com.ghouse.memoirist.entity.Section;
+import com.ghouse.memoirist.exception.MemoiristApiException;
 import com.ghouse.memoirist.repo.ContentRepo;
 import com.ghouse.memoirist.repo.SectionRepo;
 import com.ghouse.memoirist.util.GenericUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class ContentServiceImpl implements ContentService {
@@ -38,7 +38,7 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public ContentDetails getContent(String sectionDate, String sectionId) {
 		Section section;
-		if (sectionId != null) {
+		if (sectionId != null && !sectionId.equals("null")) {
 			section = sectionRepo.getBySectionId(sectionId);
 		} else {
 			section = sectionRepo.getBySectionDate(GenericUtil.getLocalDate(sectionDate));
@@ -62,8 +62,10 @@ public class ContentServiceImpl implements ContentService {
 
 		for (String contentId : contentIds) {
 			Content content = contentsMap.get(contentId);
-			Block block = new Block(content.getContentId(), content.getContentType(), content.getData());
-			blocks.add(block);
+			if(content!=null){
+				Block block = new Block(content.getContentId(), content.getContentType(), content.getData());
+				blocks.add(block);
+			}
 		}
 
 		return new ContentDetails(sectionId, sectionDate, sectionTitle, blocks);
@@ -79,21 +81,23 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public GenericStatus updateContent(ContentRQ contentRQ) {
+		List<Block> blocks = contentRQ.getBlocks();
 		String userId = contentRQ.getUserId();
 		String sectionId = contentRQ.getSectionId();
 		String sectionDate = contentRQ.getSectionDate();
 		Section section;
 
-		if (sectionId != null) {
+		if (sectionId != null && !sectionId.equals("null")) {
 			section = sectionRepo.getBySectionId(sectionId);
 		} else{
 			section = getOrCreateSection(sectionDate, userId);
 		}
+
 		if (section == null) {
-			return new GenericStatus("FAILURE");
+			throw new RuntimeException("Failed to save content");
 		}
 
-		List<Block> blocks = contentRQ.getBlocks();
+
 
 		List<Content> contents = new ArrayList<>(blocks.size());
 		List<String> contentsOrder = new ArrayList<>(blocks.size());
@@ -109,7 +113,7 @@ public class ContentServiceImpl implements ContentService {
 		}
 
 		JsonNode contentsOrderJson = convertToJsonNode(contentsOrder);
-		System.out.println("contentOrderJson: "+contentsOrderJson);
+		System.out.println("\n\n\n contentOrderJson: "+contentsOrderJson);
 		section.setContentsOrder(contentsOrderJson);
 		sectionRepo.save(section);
 		contentRepo.saveAll(contents);
@@ -127,7 +131,7 @@ public class ContentServiceImpl implements ContentService {
 		Section newSection = new Section();
 		newSection.setUserId(userId);
 		newSection.setSectionDate(parsedSectionDate);
-		newSection.setSectionName("Day"+parsedSectionDate.toString());
+		newSection.setSectionName(parsedSectionDate.toString());
 		newSection.setSectionNameType("DATE");
 		return sectionRepo.save(newSection);
 	}

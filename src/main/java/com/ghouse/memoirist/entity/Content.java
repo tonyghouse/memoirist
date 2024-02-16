@@ -1,18 +1,13 @@
 package com.ghouse.memoirist.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.ghouse.memoirist.config.JsonCustomConverter;
+import lombok.*;
+
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.ghouse.memoirist.config.JsonCustomConverter;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @Getter
